@@ -21,10 +21,11 @@
 // SOFTWARE.
 
 import { AppLib } from './app-core/lib';
+import { UtilityLib } from './app-core/utility';
 import './mycss.css';
-import './mycss2.css';
 
 let appLib = new AppLib();
+let utilityLib = new UtilityLib();
 
 let myapp = {
     myfunction: function () {
@@ -40,39 +41,6 @@ var notes = {
     "content": "<p>PCA-8573 : UI issue when there is more content on rollover text - Angular</p><p>Tried various approch to fix this issue and proposed solution.PCA-8030 : Removal of WUFRL from the UPoint Code</p>"
 }
 
-// Create file on disk with given data
-// ================================================
-function createFile() {
-    Neutralino.filesystem.writeFile('/data/file1.db', JSON.stringify(notes),
-        function (data) {
-            console.log('Write file :', data);
-        },
-        function (error) {
-            console.error('Error in writeFile ', error);
-        }
-    );
-}
-
-// Read data from file
-// ================================================
-function readFileData() {
-    Neutralino.filesystem.readFile('/data/file1.db',
-        function (data) {
-            console.log('Read file :', data);
-            var contentElem = document.querySelector('.content');
-            if (data && data.content) {
-                console.log('Parse file data :', JSON.parse(data.content));
-                if (JSON.parse(data.content).content) {
-                    contentElem.innerHTML = JSON.parse(data.content).content;
-                }
-            }
-
-        },
-        function (error) {
-            console.error('Error in readFile : ', error);
-        }
-    );
-}
 
 // Create JSON file in storage folder
 // ================================================
@@ -144,12 +112,9 @@ window.submitForm = function (event) {
         // executes when data is successfully retrieved.
         function (content) {
             // the data that has been retrieved.
-            console.log('content 1 : ', content);
 
             if (content.tasks) {
                 content.tasks.push(data);
-                console.log('content 2 : ', content, content.tasks);
-                displayData(content.tasks);
                 writeJsonData(content.tasks);
             }
 
@@ -163,27 +128,30 @@ window.submitForm = function (event) {
 
 // Display list of items on the screen
 function displayData(data) {
+    var leftPanel = document.querySelector('aside');
+
+    // First clear or remove all list items
+    utilityLib.removeAllChildNodes(leftPanel);
+
     if (data && data.length > 0) {
-        var dataSection = document.createElement('section');
-
         data.map(function (note) {
-            var singleNote = document.createElement('details');
-            singleNote.innerHTML = "<summary>" + note.title + "</summary> <pre>" + note.description + "</pre>";
-            dataSection.appendChild(singleNote);
+            leftPanel.innerHTML += '<a href="#" onclick="showDetail(\'' + note.description.toString() + '\')">' + note.title + '</a>';
         });
+    }
+}
 
-        var contentElem = document.querySelector('.content');
-        contentElem.appendChild(dataSection);
+// Display details on click of left navigation item
+window.showDetail = function (description) {
+    console.log('description :', description);
+    if (description) {
+        var noteContent = document.querySelector('.note-content');
+        noteContent.innerHTML = description;
     }
 }
 
 Neutralino.init({
     load: function () {
         // myapp.myfunction();
-
-        // createFile();
-        // readFileData();
-
         // writeJsonData({ fname: "Hiren", lname: "patel" });
         readJsonData();
     },
