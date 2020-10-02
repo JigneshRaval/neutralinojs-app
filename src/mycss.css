@@ -1,4 +1,4 @@
-/* 
+/*
 MIT License
 
 Copyright (c) 2018 Neutralinojs
@@ -21,7 +21,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-#neutralinoapp {
+/* #neutralinoapp {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
     color: white;
 }
@@ -36,4 +37,4 @@ SOFTWARE. */
 #neutralinoapp span {
     font-size: 12px;
     font-weight: normal;
-}
+} */
