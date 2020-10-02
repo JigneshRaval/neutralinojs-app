@@ -26,14 +26,79 @@ SOFTWARE. -->
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" id="ah-viewport"
+        content="user-scalable=yes, width=device-width, minimum-scale=1, maximum-scale=5.0, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet" />
     <title>NeutralinoJs</title>
-    <link rel="stylesheet" href="/assets/app.css">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="/assets/app.css" />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+
+
+    <script src="/assets/js/jquery-3.3.1.js"></script>
+    <script src="/assets/js/bootstrap.bundle.js"></script>
 </head>
 
 <body>
-    <div id="neutralinoapp">
-        <h3 id="info">..</h3>
+
+    <input type="checkbox" id="menu-toggle" checked />
+
+
+    <aside class="slideout-sidebar" id="main-nav">
+
+    </aside>
+
+    <div class="container-fluid">
+
+        <header>
+            <nav class="navbar navbar-dark sticky-top flex-md-nowrap p-0">
+                <label for="menu-toggle" class="menu-icon">☰</label>
+                <a class="col-md-3 col-lg-2 mr-0 px-3" href="#">Company name</a>
+                <button class="navbar-toggler position-absolute d-md-none" type="button" data-toggle="collapse"
+                    data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="true"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <input class="form-control form-control-dark w-100" type="text" placeholder="Search"
+                    aria-label="Search">
+            </nav>
+        </header>
+
+        <div class="content">
+            <article class="note-content"></article>
+
+            <h3>Create New Note</h3>
+
+            <form class="needs-validation" novalidate="" id="ajaxform" onsubmit="submitForm(event);">
+                <div class="form-group">
+                    <label for="firstName">Title</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                    <div class="invalid-feedback">
+                        Valid first name is required.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Description</label>
+                    <textarea class="form-control" id="lastName" placeholder="" value="" required=""
+                        rows="10"></textarea>
+                    <div class="invalid-feedback">
+                        Valid last name is required.
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-lg btn-block">Create Note</button>
+            </form>
+        </div>
+
     </div>
+
     <script src="/neutralino.js"></script>
     <script src="/assets/app.js"></script>
 

@@ -21,10 +21,11 @@
 // SOFTWARE.
 
 import { AppLib } from './app-core/lib';
+import { UtilityLib } from './app-core/utility';
 import './mycss.css';
-import './mycss2.css';
 
 let appLib = new AppLib();
+let utilityLib = new UtilityLib();
 
 let myapp = {
     myfunction: function () {
@@ -33,16 +34,131 @@ let myapp = {
     }
 };
 
+// File data
+// ================================================
+var notes = {
+    "node": "Reading",
+    "content": "<p>PCA-8573 : UI issue when there is more content on rollover text - Angular</p><p>Tried various approch to fix this issue and proposed solution.PCA-8030 : Removal of WUFRL from the UPoint Code</p>"
+}
+
+
+// Create JSON file in storage folder
+// ================================================
+function writeJsonData(dataObj) {
+    console.log('writeJsonData function called...', dataObj);
+    // Javascript Object to be stored as JSON
+    let data = {
+        bucket: 'notes',
+        content: {
+            tasks: [
+                ...dataObj || {
+                    title: "Jignesh",
+                    description: 10
+                }
+            ]
+        }
+    }
+
+    // stores the data into JSON based data store.
+    Neutralino.storage.putData(data,
+        // executes on successful storage of data
+        function () {
+            console.log('Data saved to storage/notes.json');
+            readJsonData();
+        },
+        // executes if an error occurs
+        function (error) {
+            console.log('An error occurred while saving the Data', error);
+        }
+    );
+}
+
+// Read JSON file from storage folder
+// ================================================
+function readJsonData() {
+    // The stored data is being retrieved from the JSON based data store.
+    Neutralino.storage.getData('notes',
+        // executes when data is successfully retrieved.
+        function (content) {
+            // the data that has been retrieved.
+            console.log('The data you requested for \n', content);
+            if (content && content.tasks) {
+                displayData(content.tasks);
+            }
+        },
+        // executes if an error occurs
+        function (error) {
+            console.log('An error occured while retrieving the data.', error);
+
+        }
+    );
+}
+
+window.submitForm = function (event) {
+    //callback handler for form submit
+    event.preventDefault(); //STOP default action
+    let form = event.target;
+    // let formData = new FormData(form);
+    // console.log('formData : ', formData);
+    let title = form[0].value;
+    let description = form[1].value;
+
+    let data = {
+        title: title,
+        description: description
+    }
+
+    Neutralino.storage.getData('notes',
+        // executes when data is successfully retrieved.
+        function (content) {
+            // the data that has been retrieved.
+
+            if (content.tasks) {
+                content.tasks.push(data);
+                writeJsonData(content.tasks);
+            }
+
+        },
+        // executes if an error occurs
+        function (error) {
+            console.log('An error occured while retrieving the data.', error);
+        }
+    );
+}
+
+// Display list of items on the screen
+function displayData(data) {
+    var leftPanel = document.querySelector('aside');
+
+    // First clear or remove all list items
+    utilityLib.removeAllChildNodes(leftPanel);
+
+    if (data && data.length > 0) {
+        data.map(function (note) {
+            leftPanel.innerHTML += '<a href="#" onclick="showDetail(\'' + note.description.toString() + '\')">' + note.title + '</a>';
+        });
+    }
+}
+
+// Display details on click of left navigation item
+window.showDetail = function (description) {
+    console.log('description :', description);
+    if (description) {
+        var noteContent = document.querySelector('.note-content');
+        noteContent.innerHTML = description;
+    }
+}
 
 Neutralino.init({
     load: function () {
-        myapp.myfunction();
-        appLib.showSettings();
+        // myapp.myfunction();
+        // writeJsonData({ fname: "Hiren", lname: "patel" });
+        readJsonData();
     },
-    pingSuccessCallback: function () {
-
+    pingSuccessCallback: function (error) {
+        console.log('An error occurred while pingSuccessCallback.', error);
     },
-    pingFailCallback: function () {
-
+    pingFailCallback: function (error) {
+        console.log('An error occurred while pingFailCallback.', error);
     }
 });
