@@ -77,17 +77,22 @@ function readFileData() {
 // Create JSON file in storage folder
 // ================================================
 function writeJsonData(dataObj) {
+    console.log('writeJsonData function called...', dataObj);
     // Javascript Object to be stored as JSON
     let data = {
         bucket: 'notes',
-        content: dataObj || {
-            name: "Jignesh",
-            age: 10
+        content: {
+            tasks: [
+                ...dataObj || {
+                    title: "Jignesh",
+                    description: 10
+                }
+            ]
         }
     }
+
     // stores the data into JSON based data store.
     Neutralino.storage.putData(data,
-
         // executes on successful storage of data
         function () {
             console.log('Data saved to storage/notes.json');
@@ -96,7 +101,6 @@ function writeJsonData(dataObj) {
         // executes if an error occurs
         function (error) {
             console.log('An error occurred while saving the Data', error);
-
         }
     );
 }
@@ -110,6 +114,9 @@ function readJsonData() {
         function (content) {
             // the data that has been retrieved.
             console.log('The data you requested for \n', content);
+            if (content && content.tasks) {
+                displayData(content.tasks);
+            }
         },
         // executes if an error occurs
         function (error) {
@@ -119,20 +126,71 @@ function readJsonData() {
     );
 }
 
+window.submitForm = function (event) {
+    //callback handler for form submit
+    event.preventDefault(); //STOP default action
+    let form = event.target;
+    // let formData = new FormData(form);
+    // console.log('formData : ', formData);
+    let title = form[0].value;
+    let description = form[1].value;
+
+    let data = {
+        title: title,
+        description: description
+    }
+
+    Neutralino.storage.getData('notes',
+        // executes when data is successfully retrieved.
+        function (content) {
+            // the data that has been retrieved.
+            console.log('content 1 : ', content);
+
+            if (content.tasks) {
+                content.tasks.push(data);
+                console.log('content 2 : ', content, content.tasks);
+                displayData(content.tasks);
+                writeJsonData(content.tasks);
+            }
+
+        },
+        // executes if an error occurs
+        function (error) {
+            console.log('An error occured while retrieving the data.', error);
+        }
+    );
+}
+
+// Display list of items on the screen
+function displayData(data) {
+    if (data && data.length > 0) {
+        var dataSection = document.createElement('section');
+
+        data.map(function (note) {
+            var singleNote = document.createElement('details');
+            singleNote.innerHTML = "<summary>" + note.title + "</summary> <pre>" + note.description + "</pre>";
+            dataSection.appendChild(singleNote);
+        });
+
+        var contentElem = document.querySelector('.content');
+        contentElem.appendChild(dataSection);
+    }
+}
+
 Neutralino.init({
     load: function () {
-        myapp.myfunction();
+        // myapp.myfunction();
 
-        createFile();
-        readFileData();
+        // createFile();
+        // readFileData();
 
-        writeJsonData({ name: "Hiren", age: 25 });
+        // writeJsonData({ fname: "Hiren", lname: "patel" });
         readJsonData();
     },
-    pingSuccessCallback: function () {
-
+    pingSuccessCallback: function (error) {
+        console.log('An error occurred while pingSuccessCallback.', error);
     },
-    pingFailCallback: function () {
-
+    pingFailCallback: function (error) {
+        console.log('An error occurred while pingFailCallback.', error);
     }
 });

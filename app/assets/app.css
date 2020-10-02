@@ -42,3 +42,19 @@ SOFTWARE. */
 body {
     background-color: black;
 }
+
+details {
+    margin-bottom: 1rem;
+}
+
+details summary {
+    padding: 1rem;
+    background-color: #f2f2f2;
+    border: 1px solid #CCC;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;;
+}
+
+details pre {
+    padding: 1rem;
+    background-color: wheat;
+}
