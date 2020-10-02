@@ -1,0 +1,90 @@
+<!--
+MIT License
+
+Copyright (c) 2018 Neutralinojs
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE. -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" id="ah-viewport"
+        content="user-scalable=yes, width=device-width, minimum-scale=1, maximum-scale=5.0, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <title>NeutralinoJs</title>
+
+    <link rel="stylesheet" href="/assets/app.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+
+    <script src="/assets/js/jquery-3.3.1.js"></script>
+    <script src="/assets/js/bootstrap.bundle.js"></script>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Company name</a>
+        <button class="navbar-toggler position-absolute d-md-none" type="button" data-toggle="collapse"
+            data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    </nav>
+
+    <div class="container-fluid">
+        <div class="content">
+
+        </div>
+
+        <h3>Create New Note</h3>
+
+        <form class="needs-validation" novalidate="" id="ajaxform" onsubmit="submitForm(event);">
+            <div class="form-group">
+                <label for="firstName">Title</label>
+                <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                <div class="invalid-feedback">
+                    Valid first name is required.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Description</label>
+                <textarea class="form-control" id="lastName" placeholder="" value="" required="" rows="10"></textarea>
+                <div class="invalid-feedback">
+                    Valid last name is required.
+                </div>
+            </div>
+
+            <button class="btn btn-primary btn-lg btn-block">Create Note</button>
+        </form>
+    </div>
+
+    <script src="/neutralino.js"></script>
+    <script src="/assets/app.js"></script>
+
+</body>
+
+</html>
