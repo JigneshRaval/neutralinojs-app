@@ -47,8 +47,8 @@ function createFile() {
         function (data) {
             console.log('Write file :', data);
         },
-        function () {
-            console.error('error');
+        function (error) {
+            console.error('Error in writeFile ', error);
         }
     );
 }
@@ -60,10 +60,61 @@ function readFileData() {
         function (data) {
             console.log('Read file :', data);
             var contentElem = document.querySelector('.content');
-            contentElem.innerHTML = JSON.parse(data.content).content;
+            if (data && data.content) {
+                console.log('Parse file data :', JSON.parse(data.content));
+                if (JSON.parse(data.content).content) {
+                    contentElem.innerHTML = JSON.parse(data.content).content;
+                }
+            }
+
         },
+        function (error) {
+            console.error('Error in readFile : ', error);
+        }
+    );
+}
+
+// Create JSON file in storage folder
+// ================================================
+function writeJsonData(dataObj) {
+    // Javascript Object to be stored as JSON
+    let data = {
+        bucket: 'notes',
+        content: dataObj || {
+            name: "Jignesh",
+            age: 10
+        }
+    }
+    // stores the data into JSON based data store.
+    Neutralino.storage.putData(data,
+
+        // executes on successful storage of data
         function () {
-            console.error('error');
+            console.log('Data saved to storage/notes.json');
+            readJsonData();
+        },
+        // executes if an error occurs
+        function (error) {
+            console.log('An error occurred while saving the Data', error);
+
+        }
+    );
+}
+
+// Read JSON file from storage folder
+// ================================================
+function readJsonData() {
+    // The stored data is being retrieved from the JSON based data store.
+    Neutralino.storage.getData('notes',
+        // executes when data is successfully retrieved.
+        function (content) {
+            // the data that has been retrieved.
+            console.log('The data you requested for \n', content);
+        },
+        // executes if an error occurs
+        function (error) {
+            console.log('An error occured while retrieving the data.', error);
+
         }
     );
 }
@@ -71,9 +122,12 @@ function readFileData() {
 Neutralino.init({
     load: function () {
         myapp.myfunction();
-        appLib.showSettings();
+
         createFile();
         readFileData();
+
+        writeJsonData({ name: "Hiren", age: 25 });
+        readJsonData();
     },
     pingSuccessCallback: function () {
 
