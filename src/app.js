@@ -34,14 +34,6 @@ let myapp = {
     }
 };
 
-// File data
-// ================================================
-var notes = {
-    "node": "Reading",
-    "content": "<p>PCA-8573 : UI issue when there is more content on rollover text - Angular</p><p>Tried various approch to fix this issue and proposed solution.PCA-8030 : Removal of WUFRL from the UPoint Code</p>"
-}
-
-
 // Create JSON file in storage folder
 // ================================================
 function writeJsonData(dataObj) {
@@ -83,13 +75,13 @@ function readJsonData() {
             // the data that has been retrieved.
             console.log('The data you requested for \n', content);
             if (content && content.tasks) {
-                displayData(content.tasks);
+                getNoteList(content.tasks);
+                showNoteDetail(content.tasks[0].description)
             }
         },
         // executes if an error occurs
         function (error) {
             console.log('An error occured while retrieving the data.', error);
-
         }
     );
 }
@@ -127,7 +119,7 @@ window.submitForm = function (event) {
 }
 
 // Display list of items on the screen
-function displayData(data) {
+function getNoteList(data) {
     var leftPanel = document.querySelector('aside');
 
     // First clear or remove all list items
@@ -135,13 +127,13 @@ function displayData(data) {
 
     if (data && data.length > 0) {
         data.map(function (note) {
-            leftPanel.innerHTML += '<a href="#" onclick="showDetail(\'' + note.description.toString() + '\')">' + note.title + '</a>';
+            leftPanel.innerHTML += '<a href="#" onclick="showNoteDetail(\'' + note.description.toString() + '\')">' + note.title + '</a>';
         });
     }
 }
 
 // Display details on click of left navigation item
-window.showDetail = function (description) {
+window.showNoteDetail = function (description) {
     console.log('description :', description);
     if (description) {
         var noteContent = document.querySelector('.note-content');

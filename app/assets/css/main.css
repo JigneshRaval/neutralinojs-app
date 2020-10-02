@@ -13,12 +13,13 @@ body {
 /* = Slide out panel
 ======================================================*/
 .menu-icon {
-    font-size: 24px;
+    font-size: 29px;
     font-weight: bold;
-    height: 24px;
+    height: 100%;
     width: 24px;
     transition: all 300ms ease-in-out;
     cursor: pointer;
+    display: block;
 }
 
 #menu-toggle {
@@ -67,6 +68,7 @@ aside a:hover {
     min-height: 100%;
     min-width: 100%;
     padding: 0;
+    transition: padding 0.2s ease;
 }
 
 /* = Header
@@ -81,4 +83,61 @@ header {
 ======================================================*/
 .content {
     padding: 3rem;
+    height: 100vh;
+}
+
+
+/* = Toggle Create note form
+======================================================*/
+#toggleCreateForm:checked ~ .create-note-form-wrapper {
+    bottom: 2rem;
+    opacity: 1;
+}
+
+#toggleCreateForm {
+    display: none;
+}
+
+.lbl-toggle-create-form {
+    width: 70px;
+    height: 70px;
+    background-color:#c0392b;
+    border-radius: 50%;
+    box-shadow: 0 6px 10px 0 #666;
+
+    font-size: 50px;
+    line-height: 65px;
+    color: white;
+    text-align: center;
+
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    z-index: 10;
+    transition: all 0.1s ease-in-out;
+}
+
+.lbl-toggle-create-form:hover {
+    box-shadow: 0 6px 14px 0 #666;
+    transform: scale(1.05);
+}
+
+/* = Create note form wrapper
+======================================================*/
+#menu-toggle:checked ~ .container-fluid .create-note-form-wrapper {
+    width: calc(100% - 250px - 6rem);
+}
+
+.create-note-form-wrapper {
+    position: fixed;
+    bottom: -100%;
+    transition: all 0.4s ease-in-out;
+    width: calc(100% - 6rem);
+    height: 520px;
+    opacity: 0;
+    background-color:#ecf0f1;
+    padding: 1rem;
+    box-shadow: rgba(149, 157, 165, 0.3) 0px 8px 24px;
+    border-radius: 8px;
+    border: 1px solid #bdc3c7;
 }
