@@ -33,11 +33,47 @@ let myapp = {
     }
 };
 
+// File data
+// ================================================
+var notes = {
+    "node": "Reading",
+    "content": "<p>PCA-8573 : UI issue when there is more content on rollover text - Angular</p><p>Tried various approch to fix this issue and proposed solution.PCA-8030 : Removal of WUFRL from the UPoint Code</p>"
+}
+
+// Create file on disk with given data
+// ================================================
+function createFile() {
+    Neutralino.filesystem.writeFile('/data/file1.db', JSON.stringify(notes),
+        function (data) {
+            console.log('Write file :', data);
+        },
+        function () {
+            console.error('error');
+        }
+    );
+}
+
+// Read data from file
+// ================================================
+function readFileData() {
+    Neutralino.filesystem.readFile('/data/file1.db',
+        function (data) {
+            console.log('Read file :', data);
+            var contentElem = document.querySelector('.content');
+            contentElem.innerHTML = JSON.parse(data.content).content;
+        },
+        function () {
+            console.error('error');
+        }
+    );
+}
 
 Neutralino.init({
     load: function () {
         myapp.myfunction();
         appLib.showSettings();
+        createFile();
+        readFileData();
     },
     pingSuccessCallback: function () {
 
