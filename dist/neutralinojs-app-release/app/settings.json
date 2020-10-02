@@ -1,8 +1,8 @@
 {
     "appname": "neutralinojs-app",
-    "appport": "8080",
+    "appport": "3002",
     "url": "/",
-    "mode": "window",
+    "mode": "browser",
     "window": {
         "title": "My app",
         "width": "1000",
