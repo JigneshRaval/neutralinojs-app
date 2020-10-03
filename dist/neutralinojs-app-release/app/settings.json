@@ -1,16 +1,16 @@
 {
     "appname": "neutralinojs-app",
-    "appport": "3002",
+    "appport": "8080",
     "url": "/",
-    "mode": "browser",
+    "mode": "window",
     "window": {
-        "title": "My app",
+        "title": "Notes",
         "width": "1000",
         "height": "700",
         "fullscreen": false,
         "alwaysontop": false,
-        "iconfile": "neutralino.png",
-        "enableinspector": false,
-        "borderlesswindow": false
+        "iconfile": "pencil.png",
+        "enableinspector": true,
+        "borderless": false
     }
 }

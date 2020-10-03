@@ -4,13 +4,13 @@
     "url": "/",
     "mode": "browser",
     "window": {
-        "title": "My app",
+        "title": "Notes",
         "width": "1000",
         "height": "700",
         "fullscreen": false,
         "alwaysontop": false,
-        "iconfile": "neutralino.png",
-        "enableinspector": false,
-        "borderlesswindow": false
+        "iconfile": "pencil.png",
+        "enableinspector": true,
+        "borderless": false
     }
 }

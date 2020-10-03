@@ -24,67 +24,7 @@ import { AppLib } from './app-core/lib';
 import { UtilityLib } from './app-core/utility';
 import './mycss.css';
 
-let appLib = new AppLib();
-let utilityLib = new UtilityLib();
-
-let myapp = {
-    myfunction: function () {
-        document.getElementById('info').innerHTML = NL_NAME + " is running on port " +
-            NL_PORT + " inside " + NL_OS + "<br/><br/>" + "<span>v" + NL_VERSION + "</span>";
-    }
-};
-
-// Create JSON file in storage folder
-// ================================================
-function writeJsonData(dataObj) {
-    console.log('writeJsonData function called...', dataObj);
-    // Javascript Object to be stored as JSON
-    let data = {
-        bucket: 'notes',
-        content: {
-            tasks: [
-                ...dataObj || {
-                    title: "Jignesh",
-                    description: 10
-                }
-            ]
-        }
-    }
-
-    // stores the data into JSON based data store.
-    Neutralino.storage.putData(data,
-        // executes on successful storage of data
-        function () {
-            console.log('Data saved to storage/notes.json');
-            readJsonData();
-        },
-        // executes if an error occurs
-        function (error) {
-            console.log('An error occurred while saving the Data', error);
-        }
-    );
-}
-
-// Read JSON file from storage folder
-// ================================================
-function readJsonData() {
-    // The stored data is being retrieved from the JSON based data store.
-    Neutralino.storage.getData('notes',
-        // executes when data is successfully retrieved.
-        function (content) {
-            // the data that has been retrieved.
-            console.log('The data you requested for \n', content);
-            if (content && content.tasks) {
-                getNoteList(content.tasks);
-                showNoteDetail(content.tasks[0].description)
-            }
-        },
-        // executes if an error occurs
-        function (error) {
-            console.log('An error occured while retrieving the data.', error);
-        }
-    );
-}
+window.utilityLib = new UtilityLib();
 
 window.submitForm = function (event) {
     //callback handler for form submit
@@ -93,9 +33,10 @@ window.submitForm = function (event) {
     // let formData = new FormData(form);
     // console.log('formData : ', formData);
     let title = form[0].value;
-    let description = form[1].value;
+    let description = $('#summernote').summernote('code');
 
     let data = {
+        dateCreated: new Date().getTime(),
         title: title,
         description: description
     }
@@ -107,7 +48,7 @@ window.submitForm = function (event) {
 
             if (content.tasks) {
                 content.tasks.push(data);
-                writeJsonData(content.tasks);
+                utilityLib.writeJsonData(content.tasks);
             }
 
         },
@@ -118,34 +59,10 @@ window.submitForm = function (event) {
     );
 }
 
-// Display list of items on the screen
-function getNoteList(data) {
-    var leftPanel = document.querySelector('aside');
-
-    // First clear or remove all list items
-    utilityLib.removeAllChildNodes(leftPanel);
-
-    if (data && data.length > 0) {
-        data.map(function (note) {
-            leftPanel.innerHTML += '<a href="#" onclick="showNoteDetail(\'' + note.description.toString() + '\')">' + note.title + '</a>';
-        });
-    }
-}
-
-// Display details on click of left navigation item
-window.showNoteDetail = function (description) {
-    console.log('description :', description);
-    if (description) {
-        var noteContent = document.querySelector('.note-content');
-        noteContent.innerHTML = description;
-    }
-}
-
 Neutralino.init({
     load: function () {
-        // myapp.myfunction();
-        // writeJsonData({ fname: "Hiren", lname: "patel" });
-        readJsonData();
+        // utilityLib.writeJsonData({ fname: "Hiren", lname: "patel" });
+        utilityLib.readJsonData();
     },
     pingSuccessCallback: function (error) {
         console.log('An error occurred while pingSuccessCallback.', error);

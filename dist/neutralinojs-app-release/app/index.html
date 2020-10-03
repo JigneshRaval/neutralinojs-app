@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. -->
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -35,46 +35,67 @@ SOFTWARE. -->
     <meta name="robots" content="noindex, nofollow" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet" />
     <title>NeutralinoJs</title>
-
+    <link rel="icon" type="image/png" href="pencil.png" />
+    <link rel="stylesheet" href="/assets/css/ionicons.min.css" />
     <link rel="stylesheet" href="/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="/assets/css/summernote-lite.css" />
     <link rel="stylesheet" href="/assets/app.css" />
     <link rel="stylesheet" href="/assets/css/main.css" />
 
 
     <script src="/assets/js/jquery-3.3.1.js"></script>
     <script src="/assets/js/bootstrap.bundle.js"></script>
+    <script src="/assets/js/summernote-lite.js"></script>
+    <script src="/assets/js/highlight.pack.js"></script>
 </head>
 
 <body>
 
-    <input type="checkbox" id="menu-toggle" checked />
+    <input type="checkbox" id="toggle-off-canvas-menu" checked />
 
-
+    <!-- Sidebar : Off Canvas Navigation panel -->
     <aside class="slideout-sidebar" id="main-nav">
 
     </aside>
 
+    <!-- START : Main container -->
     <div class="container-fluid">
 
-        <header>
+        <header class="app-header">
             <nav class="navbar navbar-dark sticky-top flex-md-nowrap p-0">
-                <label for="menu-toggle" class="menu-icon mb-0">☰</label>
-                <h3 class="col-md-3 col-lg-2 mr-0 mb-0 px-3">My Notes</h3>
-                <button class="navbar-toggler position-absolute d-md-none" type="button" data-toggle="collapse"
-                    data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="true"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <input class="form-control form-control-dark w-100" type="text" placeholder="Search"
-                    aria-label="Search">
+                <label for="toggle-off-canvas-menu" class="menu-icon mb-0">☰</label>
+                <h3 class="mr-0 mb-0 px-3 font-weight-bold text-nowrap"><img src="/assets/images/pencil.png"
+                        height="40" /> Notes
+                </h3>
+                <input class="form-control form-control-dark" type="text" placeholder="Search" aria-label="Search" />
             </nav>
         </header>
 
-        <div class="content">
-            <article class="note-content"></article>
+        <div class="content-wrapper">
 
-            <input type="checkbox" id="toggleCreateForm" />
-            <label for="toggleCreateForm" class="lbl-toggle-create-form" title="Add new note">+</label>
+            <!-- START : Container to put dynamic note content -->
+            <article class="note-content"></article>
+            <!-- END : Container to put dynamic note content -->
+
+            <!-- START : Floating Fab Menu -->
+            <div class="floating-menu-wrapper">
+                <input type="checkbox" id="toggle-floating-menu" />
+                <label for="toggle-floating-menu" class="lbl-toggle-create-form" title="Add new note">+</label>
+                <ul class="floating-menu">
+                    <li>
+                        <button onclick="utilityLib.deleteNote(event, null)">Delete Note</button>
+                    </li>
+                    <li>
+                        <button onclick="utilityLib.editNote(event, null)">Edit Note</button>
+                    </li>
+                    <li>
+                        <button onclick="toggleCreateForm(event)">Create New Note</button>
+                    </li>
+                </ul>
+            </div>
+            <!-- END : Floating Fab Menu -->
+
+            <!-- START : Form - Create new Note -->
             <section class="create-note-form-wrapper">
                 <h3>Add New Note</h3>
 
@@ -89,8 +110,7 @@ SOFTWARE. -->
 
                     <div class="form-group">
                         <label for="lastName">Description</label>
-                        <textarea class="form-control" id="lastName" placeholder="" value="" required=""
-                            rows="10"></textarea>
+                        <textarea id="summernote" name="editordata"></textarea>
                         <div class="invalid-feedback">
                             Valid last name is required.
                         </div>
@@ -99,11 +119,44 @@ SOFTWARE. -->
                     <button class="btn btn-primary btn-lg btn-block">Create Note</button>
                 </form>
             </section>
+            <!-- END : Form - Create new Note -->
         </div>
 
     </div>
+    <!-- END : Main container -->
 
+    <script>
+        $(document).ready(function () {
+            $('#summernote').summernote({
+                placeholder: 'Provide note description',
+                tabsize: 4,
+                height: 200,
+                callbacks: {
+                    // https://stackoverflow.com/questions/43491553/how-to-remove-style-attributes-from-tags-on-summernote-onpaste/56279119#56279119
+                    onPaste: function (e) {
+                        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
+                        e.preventDefault();
+                        var div = $('<div />');
+                        div.append(bufferText);
+                        div.find('*').removeAttr('style');
+                        div.find('*').removeAttr('class');
+                        setTimeout(function () {
+                            document.execCommand('insertHtml', false, div.html());
+                        }, 10);
+                    }
+                }
+            });
 
+            window.toggleCreateForm = function () {
+                if ($('.create-note-form-wrapper').hasClass('active')) {
+                    $('.create-note-form-wrapper').removeClass('active');
+                } else {
+                    $('.create-note-form-wrapper').addClass('active');
+                }
+            }
+
+        });
+    </script>
 
     <script src="/neutralino.js"></script>
     <script src="/assets/app.js"></script>

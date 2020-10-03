@@ -1,3 +1,186 @@
+/*
+
+Night Owl for highlight.js (c) Carl Baxter <carl@cbax.tech>
+
+An adaptation of Sarah Drasner's Night Owl VS Code Theme 
+https://github.com/sdras/night-owl-vscode-theme 
+
+Copyright (c) 2018 Sarah Drasner
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #011627;
+  color: #d6deeb;
+}
+
+/* General Purpose */
+.hljs-keyword {
+  color: #c792ea;
+  font-style: italic;
+}
+.hljs-built_in {
+  color: #addb67;
+  font-style: italic;
+}
+.hljs-type {
+  color: #82aaff;
+}
+.hljs-literal {
+  color: #ff5874;
+}
+.hljs-number {
+  color: #F78C6C;
+}
+.hljs-regexp {
+  color: #5ca7e4;
+}
+.hljs-string {
+  color: #ecc48d;
+}
+.hljs-subst {
+  color: #d3423e;
+}
+.hljs-symbol {
+  color: #82aaff;
+}
+.hljs-class {
+  color: #ffcb8b;
+}
+.hljs-function {
+  color: #82AAFF;
+}
+.hljs-title {
+  color: #DCDCAA;
+  font-style: italic;
+}
+.hljs-params {
+  color: #7fdbca;
+}
+
+/* Meta */
+.hljs-comment {
+  color: #637777;
+  font-style: italic;
+}
+.hljs-doctag {
+  color: #7fdbca;
+}
+.hljs-meta {
+  color: #82aaff;
+}
+.hljs-meta-keyword {
+  color: #82aaff;
+}
+.hljs-meta-string {
+  color: #ecc48d;
+}
+
+/* Tags, attributes, config */
+.hljs-section {
+  color: #82b1ff;
+}
+.hljs-tag,
+.hljs-name,
+.hljs-builtin-name {
+  color: #7fdbca;
+}
+.hljs-attr {
+  color: #7fdbca;
+}
+.hljs-attribute {
+  color: #80cbc4;
+}
+.hljs-variable {
+  color: #addb67;
+}
+
+/* Markup */
+.hljs-bullet {
+  color: #d9f5dd;
+}
+.hljs-code {
+  color: #80CBC4;
+}
+.hljs-emphasis {
+  color: #c792ea;
+  font-style: italic;
+}
+.hljs-strong {
+  color: #addb67;
+  font-weight: bold;
+}
+.hljs-formula {
+  color: #c792ea;
+}
+.hljs-link {
+  color: #ff869a;
+}
+.hljs-quote {
+  color: #697098;
+  font-style: italic;
+}
+
+/* CSS */
+.hljs-selector-tag {
+  color: #ff6363;
+}
+
+.hljs-selector-id {
+  color: #fad430;
+}
+
+.hljs-selector-class {
+  color: #addb67;
+  font-style: italic;
+}
+
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #c792ea;
+  font-style: italic;
+}
+
+/* Templates */
+.hljs-template-tag {
+  color: #c792ea;
+}
+.hljs-template-variable {
+  color: #addb67;
+}
+
+/* diff */
+.hljs-addition {
+  color: #addb67ff;
+  font-style: italic;
+}
+
+.hljs-deletion {
+  color: #EF535090;
+  font-style: italic;
+}
+
 /*=======================================================
     Main CSS
     Index:
@@ -6,35 +189,49 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #fcfdff;
+    background-color: #ededed;
     color: #1c1e21;
 }
 
-/* = Slide out panel
+/* = Container
+======================================================*/
+.container-fluid {
+    min-height: 100%;
+    min-width: 100%;
+    padding: 0;
+    transition: padding 0.2s ease;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+
+/* = Slide out panel ( Off Canvas menu )
 ======================================================*/
 .menu-icon {
-    font-size: 24px;
+    font-size: 29px;
     font-weight: bold;
-    height: 24px;
+    height: 100%;
     width: 24px;
     transition: all 300ms ease-in-out;
     cursor: pointer;
+    display: block;
 }
 
-#menu-toggle {
+#toggle-off-canvas-menu {
     display: none;
 }
 
-#menu-toggle:checked,
-#menu-toggle:checked + .menu-icon {
+#toggle-off-canvas-menu:checked,
+#toggle-off-canvas-menu:checked + .menu-icon {
     left: 250px;
 }
 
-#menu-toggle:checked ~ .container-fluid {
+#toggle-off-canvas-menu:checked ~ .container-fluid {
     padding-left: 250px;
 }
 
-#menu-toggle:checked ~ .slideout-sidebar {
+#toggle-off-canvas-menu:checked ~ .slideout-sidebar {
     left: 0px;
 }
 
@@ -48,6 +245,7 @@ aside {
     background-color: #2c3e50;
     color: #FFF;
     transition: all 300ms ease-in-out;
+    overflow-y: auto;
 }
 
 aside a {
@@ -56,63 +254,51 @@ aside a {
     color: #FFF;
 }
 
-aside a:hover {
+aside a.active,
+aside a:hover,
+aside a:focus {
     background-color: #007bff;
     color: #FFF;
 }
 
-/* = Container
-======================================================*/
-.container-fluid {
-    min-height: 100%;
-    min-width: 100%;
-    padding: 0;
-}
-
 /* = Header
 ======================================================*/
-header {
+.app-header {
     background-color: #fff;
     padding: 1.75rem 2.5rem;
     box-shadow: 0 0.125rem 2.5rem rgba(0,0,0,.2);
+    position: relative;
 }
 
-/* = Content
+/* = Floating menu button
 ======================================================*/
-.content {
-    padding: 3rem;
-    height: 100vh;
-}
-
-
-/* = Toggle Create note form
-======================================================*/
-#toggleCreateForm:checked ~ .create-note-form-wrapper {
-    bottom: 2rem;
-    opacity: 1;
-}
-
-#toggleCreateForm {
+#toggle-floating-menu {
     display: none;
+}
+
+#toggle-floating-menu:checked + .lbl-toggle-create-form {
+    transform : rotate(45deg);
+}
+
+.floating-menu-wrapper {
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    z-index: 10;
 }
 
 .lbl-toggle-create-form {
     width: 70px;
     height: 70px;
-    background-color:#c0392b;
+    background-color:#2c3e50;
     border-radius: 50%;
     box-shadow: 0 6px 10px 0 #666;
-
     font-size: 50px;
     line-height: 65px;
     color: white;
     text-align: center;
-
-    position: fixed;
-    right: 50px;
-    bottom: 50px;
-    z-index: 10;
     transition: all 0.1s ease-in-out;
+    cursor: pointer;
 }
 
 .lbl-toggle-create-form:hover {
@@ -120,15 +306,54 @@ header {
     transform: scale(1.05);
 }
 
-/* = Create note form wrapper
-======================================================*/
-#menu-toggle:checked ~ .container-fluid .create-note-form-wrapper {
-    width: calc(100% - 250px - 6rem);
+.floating-menu {
+    position: absolute;
+    z-index: 1;
+    bottom: 90px;
+    right: 0;
+    width: 230px;
+    height: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    margin: 0;
 }
 
+.floating-menu li {
+    width: 100%;
+    float: right;
+    list-style: none;
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+.floating-menu li button {
+    padding: 8px 15px;
+    display: inline-block;
+    background: #ccd7f5;
+    color: #6077b0;
+    border-radius: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: all 0.4s;
+    box-shadow: 1px 3px 5px rgba(211, 224, 255, 0.5);
+    border: 0px solid;
+}
+
+.floating-menu li button:hover {
+    margin-right: 10px;
+}
+
+#toggle-floating-menu:checked ~ .floating-menu {
+    height: 158px;
+    opacity: 1;
+}
+
+/* = Create note form wrapper
+======================================================*/
 .create-note-form-wrapper {
     position: fixed;
-    bottom: -100%;
+    bottom: -550px;
     transition: all 0.4s ease-in-out;
     width: calc(100% - 6rem);
     height: 520px;
@@ -138,7 +363,187 @@ header {
     box-shadow: rgba(149, 157, 165, 0.3) 0px 8px 24px;
     border-radius: 8px;
     border: 1px solid #bdc3c7;
+    margin-left: 3rem;
+}
+
+.create-note-form-wrapper.active {
+    bottom: 2rem;
+    opacity: 1;
+}
+
+#toggle-off-canvas-menu:checked ~ .container-fluid .create-note-form-wrapper {
+    width: calc(100% - 250px - 6rem);
+}
+
+/* = Content
+======================================================*/
+.content-wrapper {
+    height: 100%;
+}
+
+.note__header {
+    margin: 0 0 2rem 0;
+    color: #363636;
+    padding: 2rem 0;
+    background: radial-gradient(at top left, #e5d0ad, #d2af73);
+}
+
+.note-header__content {
+    margin: 0 auto;
+    max-width: 75%;
+}
+
+.note-header__content h1 {
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+.note-header__tags-list ul {
+    padding: 0;
+    margin: 0;
+    margin-left: 1rem;
+    list-style: none;
+    display: inline;
+}
+
+.note-header__tags-list ul li {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.note-header__tags-list ul li a {
+    display: inline-block;
+    padding: 0 8px;
+    border: 2px solid #bb975b;
+    background-color: #FFF;
+    margin-right: 1rem;
+    font-weight: 500;
+    line-height: 1.8rem;
+}
+
+.note-content article {
+    margin: auto;
+    background-color: #FFF;
+    padding: 3rem;
+    width: 75%;
+}
+
+.note-content article h1:not(:first-child),
+.note-content article h2:not(:first-child),
+.note-content article h3:not(:first-child) {
+    position: relative;
+    margin-top: 10rem;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.note-content article h1:not(:first-child)::after,
+.note-content article h2:not(:first-child)::after,
+.note-content article h3:not(:first-child)::after {
+    content: "";
+    display: block;
+    background: #ededed;
+    height: 48px;
+    width: 130%;
+    top: -90px;
+    position: absolute;
+    pointer-events: none;
+    overflow: hidden;
+    margin-left: -5rem;
+    margin-right: -5rem;
+}
+
+.note-content article a {
+    color: #ee5252;
+}
+
+.note-content article pre {
+    padding: 0;
+    font-family: Inconsolata, Consolas, monospace, sans-serif;
+    font-size: 1rem;
+    line-height: 2;
+    overflow: visible;
+    position: relative;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border: 0px solid;
+    margin-left: -3rem;
+    margin-right: -3rem;
+}
+
+.note-content article pre code {
+    display: block;
+    border: 0px solid;
+    font-weight: normal;
+    overflow: auto;
+    border-radius: 0;
+    padding: 2rem;
+}
+
+.note-content article code {
+    font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
+    display: inline-block;
+    font-size: 16px;
+    /* background: linear-gradient(to right, #fce4ed, #ffe8cc); */
+}
+
+.note-content article pre::before {
+    background: #ffe725;
+    content: attr(data-title);
+    content: 'CODE';
+    position: absolute;
+    top: 8px;
+    padding: 0 10px 3px;
+    font-size: 11px;
+    right: 4rem;
+    text-align: right;
+    color: #444;
+    font-weight: 700;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+}
+
+.note-content article pre::after {
+    background: #ffe725;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+}
+
+.note-content article .hljs {
+    background-color: #002b36;
+}
+
+/* = Responsive view
+======================================================*/
+@media screen and (max-width: 720px) {
+    .note-content article {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .note-content article {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .note-content article {
+        width: 90%;
+    }
+}
+
+.note-editor.note-frame,
+.note-editor.note-airframe {
+    background-color: #FFF;
 }
 
 
 
+
+/*# sourceMappingURL=app.css.map*/
