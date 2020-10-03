@@ -33,6 +33,8 @@ Date : 3 Oct, 2020
 
 ![Image of App](https://raw.githubusercontent.com/JigneshRaval/neutralinojs-app/develop/app/assets/screenshots/app-dashboard-03-Oct-2020.png)
 
+![Code Highlighting](https://raw.githubusercontent.com/JigneshRaval/neutralinojs-app/develop/app/assets/screenshots/app-dashboard-code-highlighting-03-Oct-2020.png)
+
 *Note : More screenshots are available here*
 https://github.com/JigneshRaval/neutralinojs-app/tree/develop/app/assets/screenshots
 
