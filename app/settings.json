@@ -1,8 +1,8 @@
 {
     "appname": "neutralinojs-app",
-    "appport": "3002",
+    "appport": "8080",
     "url": "/",
-    "mode": "browser",
+    "mode": "window",
     "window": {
         "title": "Notes",
         "width": "1000",

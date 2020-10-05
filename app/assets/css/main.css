@@ -13,6 +13,10 @@ body {
     color: #1c1e21;
 }
 
+h1 {
+    font-size: 2rem;
+}
+
 /* = Container
 ======================================================*/
 .container-fluid {
@@ -36,6 +40,11 @@ body {
     transition: all 300ms ease-in-out;
     cursor: pointer;
     display: block;
+    color: #CCC;
+}
+
+.menu-icon:hover {
+    color: #333;
 }
 
 #toggle-off-canvas-menu {
@@ -70,8 +79,9 @@ aside {
 
 aside a {
     display: block;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     color: #FFF;
+    font-size: 0.875rem;
 }
 
 aside a.active,
@@ -79,13 +89,14 @@ aside a:hover,
 aside a:focus {
     background-color: #007bff;
     color: #FFF;
+    text-decoration: none;
 }
 
 /* = Header
 ======================================================*/
 .app-header {
     background-color: #fff;
-    padding: 1.75rem 2.5rem;
+    padding: 1.25rem;
     box-shadow: 0 0.125rem 2.5rem rgba(0,0,0,.2);
     position: relative;
 }
@@ -215,7 +226,8 @@ aside a:focus {
 
 .note-header__content h1 {
     font-weight: bold;
-    margin: 1rem 0;
+    margin: 0 0 1rem 0;
+    font-size: 2rem;
 }
 
 .note-header__tags-list ul {
@@ -245,15 +257,14 @@ aside a:focus {
     margin: auto;
     background-color: #FFF;
     padding: 3rem;
-    width: 75%;
+    width: 85%;
 }
 
 .note-content article h1:not(:first-child),
 .note-content article h2:not(:first-child),
 .note-content article h3:not(:first-child) {
     position: relative;
-    margin-top: 10rem;
-    font-size: 2.5rem;
+    margin-top: 8rem;
     margin-bottom: 2rem;
 }
 
@@ -263,14 +274,14 @@ aside a:focus {
     content: "";
     display: block;
     background: #ededed;
-    height: 48px;
-    width: 130%;
+    height: 2rem;
+    width: calc(100% + 6rem);
     top: -90px;
     position: absolute;
     pointer-events: none;
     overflow: hidden;
-    margin-left: -5rem;
-    margin-right: -5rem;
+    margin-left: -3rem;
+    margin-right: 0;
 }
 
 .note-content article a {
@@ -358,7 +369,15 @@ aside a:focus {
     }
 }
 
+/* = Summernote customization
+======================================================*/
 .note-editor.note-frame,
 .note-editor.note-airframe {
     background-color: #FFF;
+    width: 85%;
+    margin: auto;
+}
+
+.note-editor.note-frame .note-editing-area .note-editable {
+    padding: 1rem;
 }

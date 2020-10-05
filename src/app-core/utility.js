@@ -183,7 +183,7 @@ export class UtilityLib {
     }
 
     createBtnGroup(noteId) {
-        let editBtn = `<button type="button" class="btn btn-primary" data-note-id="${noteId}" onclick="utilityLib.editNote(event, ${noteId})">Edit Note</button> `;
+        let editBtn = `<button type="button" class="btn btn-primary" data-note-id="${noteId}" onclick="utilityLib.editNote(event, ${noteId})" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Edit Note</button> `;
         let saveBtn = `<button type="button" class="btn btn-primary" data-note-id="${noteId}" onclick="utilityLib.saveNote(event, ${noteId})">Save Note</button> `;
         let deleteBtn = `<button type="button" class="btn btn-danger" data-note-id="${noteId}" onclick="utilityLib.deleteNote(event, ${noteId})">Delete Note</button>`;
 
@@ -194,25 +194,33 @@ export class UtilityLib {
 
     // Edit Single Note
     editNote(event, noteId) {
-        console.log('Edit Note :', event, noteId);
-        $('.note-content > article').summernote({
-            focus: true,
-            callbacks: {
-                // https://stackoverflow.com/questions/43491553/how-to-remove-style-attributes-from-tags-on-summernote-onpaste/56279119#56279119
-                onPaste: function (e) {
-                    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
-                    e.preventDefault();
-                    var div = $('<div />');
-                    div.append(bufferText);
-                    div.find('*').removeAttr('style');
-                    div.find('*').removeAttr('class');
-                    div.find('a').attr('target', '_blank');
-                    setTimeout(function () {
-                        document.execCommand('insertHtml', false, div.html());
-                    }, 10);
+        if (!$('.note-content > article').hasClass('active')) {
+            $('.note-content > article').addClass('active');
+            $('.note-content > article').summernote({
+                focus: true,
+                callbacks: {
+                    // https://stackoverflow.com/questions/43491553/how-to-remove-style-attributes-from-tags-on-summernote-onpaste/56279119#56279119
+                    onPaste: function (e) {
+                        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
+                        e.preventDefault();
+                        var div = $('<div />');
+                        div.append(bufferText);
+                        div.find('*').removeAttr('style');
+                        div.find('*').removeAttr('class');
+                        div.find('a').attr('target', '_blank');
+                        setTimeout(function () {
+                            document.execCommand('insertHtml', false, div.html());
+                        }, 10);
+                    }
                 }
-            }
-        });
+            });
+            // console.log(event, event.target);
+            event.target.innerText = "Cancel Editing";
+        } else {
+            $('.note-content > article').removeClass('active');
+            $('.note-content > article').summernote('destroy');
+            event.target.innerText = "Edit Note";
+        }
     };
 
     // Save Single Note
